@@ -1,0 +1,29 @@
+# VM images, disks and snapshots
+*.vmdk
+*.vdi
+*.vhd
+*.vhdx
+*.vmsd
+*.vmsn
+*.vmem
+*.vmss
+*.vmx
+*.nvram
+*.iso
+*.ova
+*.ovf
+
+# Credentials, keys and local secrets
+.env
+.env.*
+*.pfx
+*.p12
+*.pem
+*.key
+*passwords*.txt
+*credentials*.txt
+
+# OS/editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
