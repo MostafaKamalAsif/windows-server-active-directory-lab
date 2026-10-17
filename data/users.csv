@@ -1,0 +1,3 @@
+SamAccountName,GivenName,Surname,OU,Groups
+mostafa,Mostafa,Asif,IT,IT-staff;IT-ControlPanel-Restricted
+kamal,Kamal,Asif,IT,IT-staff
