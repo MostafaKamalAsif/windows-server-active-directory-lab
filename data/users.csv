@@ -1,3 +1,5 @@
 SamAccountName,GivenName,Surname,OU,Groups
 mostafa,Mostafa,Asif,IT,IT-staff;IT-ControlPanel-Restricted
-kamal,Kamal,Asif,IT,IT-staff
+kamal,Kamal,Asif,IT,IT-staff;IT-ControlPanel-Restricted
+rahim,rahim,,HR,HR-staff
+karim,karim,,Finance,Finance-staff

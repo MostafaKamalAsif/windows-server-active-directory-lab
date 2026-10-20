@@ -1,5 +1,7 @@
 # Active Directory Setup
 
+> Building the domain controller itself is covered in [Domain Controller Installation Report](domain-controller-installation.md). This page covers the environment summary and joining the client.
+
 ## Environment
 
 - Domain controller: `DC01`

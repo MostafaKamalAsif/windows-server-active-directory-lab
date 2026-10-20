@@ -62,6 +62,7 @@ flowchart TB
 7. Created GPO `IT-Block-ControlPanel`, linked to the IT OU, enabling **Prohibit access to Control Panel and PC settings**.
 8. Used the `IT-ControlPanel-Restricted` group and security filtering to target only selected users.
 9. Proved the policy with `gpresult` and a domain user session.
+10. Built a department file server using **AGDLP**: global and domain local groups, NTFS Modify permissions per folder, the `CompanyData` SMB share with access-based enumeration, and a mapped `Z:` drive on the client ([report](docs/file-server-agdlp.md)).
 
 ## Evidence
 
@@ -76,6 +77,12 @@ flowchart TB
 | GPO setting configured | ![GPO setting](screenshots/control-panel-gpo-configuration.png) |
 | GPO security filtering | ![Security filtering](screenshots/gpo-security-filtering.png) |
 | `gpresult` showing the GPO applied | ![gpresult](screenshots/gpo-applied-proof.png) |
+| AGDLP groups in the IT OU | ![File server groups](screenshots/file-server-groups.png) |
+| AGDLP membership chain | ![AGDLP membership](screenshots/agdlp-membership.png) |
+| `CompanyData` share | ![File share](screenshots/file-share.png) |
+| NTFS permissions on the share root | ![NTFS permissions](screenshots/ntfs-permissions.png) |
+| Attempt to open the HR folder | ![HR folder not accessible](screenshots/access-denied.png) |
+| Mapped `Z:` drive | ![Mapped drive](screenshots/mapped-network-drive.png) |
 
 ## Reproduce the lab
 
@@ -84,11 +91,12 @@ You can follow the docs and click through the GUI, or run the scripts. Run each 
 | Step | Where | Script / doc |
 |---|---|---|
 | 1. Static IP and DNS | DC01, then CLIENT01 | [`00-Set-StaticIP.ps1`](scripts/00-Set-StaticIP.ps1) · [network doc](docs/network-configuration.md) |
-| 2. Install AD DS + DNS, promote DC | DC01 | [`01-Install-ADDS.ps1`](scripts/01-Install-ADDS.ps1) |
+| 2. Install AD DS + DNS, promote DC | DC01 | [`01-Install-ADDS.ps1`](scripts/01-Install-ADDS.ps1) · [DC installation report](docs/domain-controller-installation.md) |
 | 3. OUs, groups, users | DC01 | [`02-New-OUsUsersGroups.ps1`](scripts/02-New-OUsUsersGroups.ps1) reads [`data/users.csv`](data/users.csv) |
 | 4. GPO + security filtering | DC01 | [`03-New-ControlPanelGPO.ps1`](scripts/03-New-ControlPanelGPO.ps1) · [GPO doc](docs/group-policy-configuration.md) |
 | 5. Join the client | CLIENT01 | [`04-Join-Domain.ps1`](scripts/04-Join-Domain.ps1) · [AD setup doc](docs/active-directory-setup.md) |
-| 6. Health check | Either | [`99-Test-Lab.ps1`](scripts/99-Test-Lab.ps1) |
+| 6. File server, AGDLP groups, share | DC01 | [`05-New-FileServer.ps1`](scripts/05-New-FileServer.ps1) · [file server report](docs/file-server-agdlp.md) |
+| 7. Health check | Either | [`99-Test-Lab.ps1`](scripts/99-Test-Lab.ps1) |
 
 Example for step 1 on the DC (adjust `-InterfaceAlias` to your adapter name from `Get-NetAdapter`):
 
@@ -134,6 +142,8 @@ Or run everything at once: `.\scripts\99-Test-Lab.ps1`
 │   └── users.csv                  # sample users/groups consumed by script 02
 ├── docs/
 │   ├── network-configuration.md
+│   ├── domain-controller-installation.md
+│   ├── file-server-agdlp.md
 │   ├── active-directory-setup.md
 │   ├── dns-troubleshooting.md
 │   ├── group-policy-configuration.md
@@ -145,7 +155,7 @@ Or run everything at once: `.\scripts\99-Test-Lab.ps1`
 
 ## Skills demonstrated
 
-Windows Server 2022 · Active Directory DS · DNS · Windows 11 domain join · Group Policy and security filtering · Security groups · VMware networking · PowerShell automation · Troubleshooting
+Windows Server 2022 · Active Directory DS · DNS · Windows 11 domain join · Group Policy and security filtering · Security groups · AGDLP, NTFS and SMB share permissions · Access-based enumeration · VMware networking · PowerShell automation · Troubleshooting
 
 ## Next steps
 

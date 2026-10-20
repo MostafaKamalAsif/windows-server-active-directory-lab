@@ -8,3 +8,7 @@
 6. **Group changes need a new logon.** A user's token is built at sign-in, so sign out and in before testing a security-filtered GPO.
 7. **Prove it, don't assume it.** `gpresult /r /scope user` and `whoami /groups` are the evidence that a policy applied for the right reason.
 8. **Never commit secrets.** Scripts prompt for passwords; the `.gitignore` blocks keys, credentials files and VM images.
+9. **Permissions belong on groups, via AGDLP.** Accounts go into global groups, global groups into domain local groups, and only the domain local group appears on the folder.
+10. **Check inheritance on the folders you protect.** The default `C:\` entries give `Users` read access; a department folder is only private once inheritance is disabled.
+11. **Access-based enumeration hides what users should not know exists.** It is a share setting, separate from NTFS permissions.
+12. **A generic "Windows cannot access" message is weak evidence.** Capture the error code or an `Access is denied` result from `dir`, plus `whoami`, so the proof is unambiguous.
